@@ -1,17 +1,19 @@
-import { Inter } from 'next/font/google'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
-
 export const metadata = {
-  title: 'Larify.pt - Sente-te em casa desde o primeiro clique',
-  description: 'A plataforma moderna onde particulares e agentes imobiliários podem anunciar imóveis gratuitamente em Portugal.',
+  title: 'Larify - Encontre a casa dos seus sonhos',
+  description: 'A plataforma mais moderna para comprar, vender e arrendar imóveis em Portugal. Tecnologia avançada, experiência simplificada.',
+  keywords: 'imóveis, casas, apartamentos, Portugal, comprar casa, arrendar, vender imóvel',
 }
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="pt">
-      <body className={inter.className}>
+    <html lang="pt" className="scroll-smooth">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
+      </head>
+      <body className="antialiased">
         {children}
       </body>
     </html>
