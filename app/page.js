@@ -2,6 +2,7 @@
 
 import { Search, Home, Users, Shield, ArrowRight, MapPin, Star, TrendingUp, Eye, Heart, ChevronDown } from 'lucide-react'
 import { useState } from 'react'
+import Link from 'next/link'
 import RealTimeStats from '../components/RealTimeStats'
 import FeaturedListings from '../components/FeaturedListings'
 
@@ -75,8 +76,8 @@ export default function HomePage() {
             </nav>
             
             <div className="flex items-center space-x-3">
-              <button className="btn-ghost">Entrar</button>
-              <button className="btn-primary">Começar</button>
+              <Link href="/criar-conta" className="btn-ghost">Criar conta</Link>
+              <Link href="/login" className="btn-primary">Entrar</Link>
             </div>
           </div>
         </div>
