@@ -64,7 +64,7 @@ export default function HomePage() {
               <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center">
                 <Home className="h-5 w-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-gray-900">Larify</span>
+              <span className="text-xl font-bold text-gray-900">Domiva</span>
             </div>
             
             <nav className="hidden md:flex items-center space-x-8">
@@ -323,7 +323,7 @@ export default function HomePage() {
         <div className="container-custom">
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Porquê escolher o Larify?
+              Porquê escolher o Domiva?
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto font-light">
               Tecnologia avançada, experiência simplificada e resultados extraordinários
@@ -376,7 +376,7 @@ export default function HomePage() {
                 Pronto para começar?
               </h2>
               <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto font-light">
-                Junte-se a milhares de portugueses que já encontraram o lar perfeito através do Larify
+                Junte-se a milhares de portugueses que já encontraram o lar perfeito através do Domiva
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -408,7 +408,7 @@ export default function HomePage() {
                 <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center">
                   <Home className="h-5 w-5 text-white" />
                 </div>
-                <span className="text-xl font-bold text-gray-900">Larify</span>
+                <span className="text-xl font-bold text-gray-900">Domiva</span>
               </div>
               <p className="text-gray-600 font-light leading-relaxed mb-6">
                 A plataforma mais moderna para encontrar e anunciar imóveis em Portugal. 
@@ -461,7 +461,7 @@ export default function HomePage() {
           <div className="border-t border-gray-100 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <p className="text-gray-500 font-light">
-                © 2024 Larify. Todos os direitos reservados.
+                © 2024 Domiva. Todos os direitos reservados.
               </p>
               <div className="flex items-center space-x-6 mt-4 md:mt-0">
                 <span className="text-sm text-gray-500 font-light">Feito com ❤️ em Portugal</span>

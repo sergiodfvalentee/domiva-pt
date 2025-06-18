@@ -1,7 +1,7 @@
 import './globals.css'
 
 export const metadata = {
-  title: 'Larify - Encontre a casa dos seus sonhos',
+  title: 'Domiva - Encontre a casa dos seus sonhos',
   description: 'A plataforma mais moderna para comprar, vender e arrendar imóveis em Portugal. Tecnologia avançada, experiência simplificada.',
   keywords: 'imóveis, casas, apartamentos, Portugal, comprar casa, arrendar, vender imóvel',
 }

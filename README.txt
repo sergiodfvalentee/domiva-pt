@@ -1,4 +1,4 @@
-# Larify.pt - Portuguese Real Estate Platform
+# Domiva.pt - Portuguese Real Estate Platform
 
 *"Sente-te em casa desde o primeiro clique."*
 
