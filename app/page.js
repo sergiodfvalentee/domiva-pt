@@ -59,7 +59,7 @@ export default function HomePage() {
       {/* Modern Header */}
       <header className="absolute top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
         <div className="container-custom">
-          <div className="flex justify-between items-center py-4">
+          <div className="flex justify-between items-center py-3 md:py-4">
             <div className="flex items-center space-x-2">
               <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center">
                 <Home className="h-5 w-5 text-white" />
@@ -83,16 +83,16 @@ export default function HomePage() {
       </header>
 
       {/* Hero Section - Ultra Modern */}
-      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-white">
+      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-white pt-24 md:pt-32">
         <div className="container-custom text-center">
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 md:mb-8 leading-tight">
               <span className="gradient-text">Sinta-se em casa</span>
               <br />
               <span className="text-gray-900">desde o primeiro clique</span>
             </h1>
             
-            <p className="text-xl md:text-2xl text-gray-600 mb-12 font-light leading-relaxed">
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-8 md:mb-12 font-light leading-relaxed px-4">
               A plataforma mais moderna para comprar, vender e arrendar imóveis em Portugal
             </p>
             
