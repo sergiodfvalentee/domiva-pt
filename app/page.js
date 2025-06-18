@@ -100,8 +100,8 @@ export default function HomePage() {
             <div className="max-w-6xl mx-auto mb-16">
               <div className="bg-white rounded-2xl shadow-2xl p-2 border border-gray-100">
                 <div className="flex flex-col lg:flex-row items-center space-y-2 lg:space-y-0 lg:space-x-2">
-                  {/* Location Input - Made wider */}
-                  <div className="flex-[2] flex items-center space-x-3 px-4 py-3 min-w-0">
+                  {/* Location Input - Made much wider */}
+                  <div className="w-full lg:w-1/2 flex items-center space-x-3 px-4 py-3 min-w-0">
                     <MapPin className="h-5 w-5 text-gray-400 flex-shrink-0" />
                     <input 
                       type="text" 
@@ -113,8 +113,8 @@ export default function HomePage() {
                   <div className="hidden lg:block w-px h-12 bg-gray-200"></div>
                   
                   {/* Property Type Dropdown */}
-                  <div className="relative">
-                    <select className="appearance-none text-gray-600 bg-transparent border-none outline-none px-4 py-3 pr-8 cursor-pointer font-medium hover:text-gray-900 transition-colors">
+                  <div className="relative flex-shrink-0">
+                    <select className="appearance-none text-gray-600 bg-transparent border-none outline-none px-3 py-3 pr-6 cursor-pointer font-medium hover:text-gray-900 transition-colors whitespace-nowrap">
                       <option value="">Todos os tipos</option>
                       <option value="apartamento">Apartamentos</option>
                       <option value="moradia">Moradias</option>
@@ -131,7 +131,7 @@ export default function HomePage() {
                   <div className="hidden lg:block w-px h-12 bg-gray-200"></div>
                   
                   {/* Transaction Type & Price Range */}
-                  <div className="flex items-center space-x-4 px-4">
+                  <div className="flex items-center space-x-2 px-2 flex-shrink-0">
                     <div className="relative">
                       <select className="appearance-none text-gray-600 bg-transparent border-none outline-none pr-6 cursor-pointer font-medium hover:text-gray-900 transition-colors">
                         <option>Comprar</option>
