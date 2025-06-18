@@ -83,22 +83,22 @@ export default function HomePage() {
       </header>
 
       {/* Hero Section - Ultra Modern */}
-      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-white pt-24 md:pt-32">
-        <div className="container-custom text-center">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 md:mb-8 leading-tight">
+      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-white pt-32 lg:pt-40">
+        <div className="container-custom text-center px-4 lg:px-8">
+          <div className="max-w-5xl mx-auto">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 lg:mb-12 leading-tight">
               <span className="gradient-text">Sinta-se em casa</span>
               <br />
               <span className="text-gray-900">desde o primeiro clique</span>
             </h1>
             
-            <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-8 md:mb-12 font-light leading-relaxed px-4">
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-600 mb-12 lg:mb-16 font-light leading-relaxed px-4">
               A plataforma mais moderna para comprar, vender e arrendar imóveis em Portugal
             </p>
             
             {/* Advanced Search Bar with Property Type */}
-            <div className="max-w-6xl mx-auto mb-16">
-              <div className="bg-white rounded-2xl shadow-2xl p-2 border border-gray-100">
+            <div className="max-w-6xl mx-auto mb-16 lg:mb-20">
+                              <div className="bg-white rounded-2xl shadow-2xl p-2 lg:p-3 border border-gray-100">
                 <div className="flex flex-col lg:flex-row items-center space-y-2 lg:space-y-0 lg:space-x-2">
                   {/* Location Input - Made much wider */}
                   <div className="w-full lg:w-1/2 flex items-center space-x-3 px-4 py-3 min-w-0">
