@@ -97,16 +97,16 @@ export default function HomePage() {
             </p>
             
             {/* Advanced Search Bar with Property Type */}
-            <div className="max-w-5xl mx-auto mb-16">
+            <div className="max-w-6xl mx-auto mb-16">
               <div className="bg-white rounded-2xl shadow-2xl p-2 border border-gray-100">
                 <div className="flex flex-col lg:flex-row items-center space-y-2 lg:space-y-0 lg:space-x-2">
-                  {/* Location Input */}
-                  <div className="flex-1 flex items-center space-x-3 px-4 py-3 min-w-0">
+                  {/* Location Input - Made wider */}
+                  <div className="flex-[2] flex items-center space-x-3 px-4 py-3 min-w-0">
                     <MapPin className="h-5 w-5 text-gray-400 flex-shrink-0" />
                     <input 
                       type="text" 
                       placeholder="Localização, cidade ou código postal" 
-                      className="flex-1 text-gray-900 placeholder-gray-400 bg-transparent border-none outline-none text-lg min-w-0"
+                      className="flex-1 text-gray-900 placeholder-gray-400 bg-transparent border-none outline-none text-lg min-w-0 w-full"
                     />
                   </div>
                   
