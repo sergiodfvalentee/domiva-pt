@@ -1,4 +1,5 @@
 import './globals.css'
+import { Analytics } from '@vercel/analytics/react'
 
 export const metadata = {
   title: 'Domiva - Encontre a casa dos seus sonhos',
@@ -15,6 +16,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className="antialiased">
         {children}
+        <Analytics />
       </body>
     </html>
   )
