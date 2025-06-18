@@ -87,9 +87,9 @@ export default function HomePage() {
         <div className="container-custom text-center">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
-              <span className="gradient-text">Encontre a casa</span>
+              <span className="gradient-text">Sinta-se em casa</span>
               <br />
-              <span className="text-gray-900">dos seus sonhos</span>
+              <span className="text-gray-900">desde o primeiro clique</span>
             </h1>
             
             <p className="text-xl md:text-2xl text-gray-600 mb-12 font-light leading-relaxed">
