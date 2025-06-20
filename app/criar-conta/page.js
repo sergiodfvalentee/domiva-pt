@@ -1,12 +1,23 @@
 'use client'
 
-import { useState } from 'react'
-import { Home, Eye, EyeOff, Mail, Lock, User, Phone } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Home, Eye, EyeOff, Mail, Lock, User, Phone, Loader, Shield } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { signUp, signInWithProvider, isAuthenticated } from '../../lib/auth'
+import { 
+  validateRegistrationForm, 
+  sanitizeString, 
+  detectSuspiciousActivity,
+  checkClientRateLimit 
+} from '../../lib/validation'
 
 export default function CriarContaPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -16,11 +27,108 @@ export default function CriarContaPage() {
     userType: 'particular',
     acceptTerms: false
   })
+  const router = useRouter()
 
-  const handleSubmit = (e) => {
+  // Check if user is already authenticated
+  useEffect(() => {
+    const checkAuth = async () => {
+      const authenticated = await isAuthenticated()
+      if (authenticated) {
+        router.push('/dashboard')
+      }
+    }
+    checkAuth()
+  }, [router])
+
+  const validateForm = () => {
+    // Check for suspicious activity
+    const inputs = [formData.name, formData.email, formData.phone]
+    for (const input of inputs) {
+      if (detectSuspiciousActivity(input)) {
+        setError('Dados inválidos detectados.')
+        return false
+      }
+    }
+
+    // Use comprehensive validation
+    const validation = validateRegistrationForm(formData)
+    if (!validation.isValid) {
+      const firstError = Object.values(validation.errors)[0]
+      setError(firstError)
+      return false
+    }
+
+    return true
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log('Sign up attempt:', formData)
-    // TODO: Implement sign up logic
+    setError('')
+    setSuccess('')
+
+    // Check client-side rate limiting (very relaxed for development)
+    if (!checkClientRateLimit('registration', 100, 60 * 60 * 1000)) { // 100 attempts per hour
+      setError('Muitas tentativas de registo. Tente novamente mais tarde.')
+      return
+    }
+
+    if (!validateForm()) return
+
+    setIsLoading(true)
+
+    try {
+      const { data, error } = await signUp({
+        email: sanitizeString(formData.email.toLowerCase()),
+        password: formData.password,
+        name: sanitizeString(formData.name),
+        phone: sanitizeString(formData.phone),
+        userType: formData.userType
+      })
+      
+      if (error) {
+        setError(getErrorMessage(error.message))
+        return
+      }
+
+      if (data?.user) {
+        if (data.user.email_confirmed_at) {
+          setSuccess('Conta criada e verificada com sucesso! Pode agora fazer login.')
+        } else {
+          setSuccess('Conta criada com sucesso! ✨ Enviámos um email de verificação para ' + formData.email + '. Clique no link no email para ativar a sua conta antes de fazer login.')
+        }
+        
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          password: '',
+          confirmPassword: '',
+          userType: 'particular',
+          acceptTerms: false
+        })
+      }
+    } catch (err) {
+      setError('Erro inesperado. Tente novamente.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleSocialSignUp = async (provider) => {
+    setIsLoading(true)
+    setError('')
+    
+    try {
+      const { error } = await signInWithProvider(provider)
+      if (error) {
+        setError(`Erro ao registar com ${provider}. Tente novamente.`)
+      }
+    } catch (err) {
+      setError('Erro inesperado. Tente novamente.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleChange = (e) => {
@@ -29,6 +137,29 @@ export default function CriarContaPage() {
       ...formData,
       [name]: type === 'checkbox' ? checked : value
     })
+    // Clear errors when user types
+    if (error) setError('')
+  }
+
+  const getErrorMessage = (error) => {
+    // Check for our custom duplicate email message first
+    if (error.includes('Este email já está registado')) {
+      return error // Return the exact message from auth.js
+    }
+    if (error.includes('User already registered') || error.includes('already registered')) {
+      return 'Este email já está registado. Tente fazer login ou recuperar a password.'
+    }
+    if (error.includes('Password should be at least') || error.includes('password')) {
+      return 'A palavra-passe deve ter pelo menos 8 caracteres.'
+    }
+    if (error.includes('Invalid email') || error.includes('email')) {
+      return 'Email inválido.'
+    }
+    if (error.includes('Invalid API key')) {
+      return 'Erro de configuração. Contacte o administrador.'
+    }
+    // Return the original error message if it's already user-friendly
+    return error
   }
 
   return (
@@ -69,6 +200,18 @@ export default function CriarContaPage() {
                   Junte-se à Domiva e encontre a casa dos seus sonhos
                 </p>
               </div>
+
+              {/* Error/Success Messages */}
+              {error && (
+                <div className="p-4 rounded-xl bg-red-50 border border-red-200">
+                  <p className="text-red-600 text-sm">{error}</p>
+                </div>
+              )}
+              {success && (
+                <div className="p-4 rounded-xl bg-green-50 border border-green-200">
+                  <p className="text-green-600 text-sm">{success}</p>
+                </div>
+              )}
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* User Type Selection */}
@@ -250,9 +393,11 @@ export default function CriarContaPage() {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="w-full bg-gray-900 text-white py-3 px-4 rounded-xl font-medium hover:bg-gray-800 transition-all duration-300 transform hover:-translate-y-0.5"
+                  disabled={isLoading}
+                  className="w-full bg-gray-900 text-white py-3 px-4 rounded-xl font-medium hover:bg-gray-800 transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2"
                 >
-                  Criar conta gratuita
+                  {isLoading && <Loader className="h-4 w-4 animate-spin" />}
+                  <span>{isLoading ? 'Criando conta...' : 'Criar conta gratuita'}</span>
                 </button>
               </form>
 
@@ -268,10 +413,18 @@ export default function CriarContaPage() {
 
               {/* Social Login */}
               <div className="space-y-3">
-                <button className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">
+                <button 
+                  onClick={() => handleSocialSignUp('google')}
+                  disabled={isLoading}
+                  className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                   <span className="text-sm font-medium text-gray-700">Continuar com Google</span>
                 </button>
-                <button className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">
+                <button 
+                  onClick={() => handleSocialSignUp('facebook')}
+                  disabled={isLoading}
+                  className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                   <span className="text-sm font-medium text-gray-700">Continuar com Facebook</span>
                 </button>
               </div>

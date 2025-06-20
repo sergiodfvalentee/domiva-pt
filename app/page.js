@@ -1,13 +1,39 @@
 'use client'
 
-import { Search, Home, Users, Shield, ArrowRight, MapPin, Star, TrendingUp, Eye, Heart, ChevronDown } from 'lucide-react'
-import { useState } from 'react'
+import { Search, Home, Users, Shield, ArrowRight, MapPin, Star, TrendingUp, Eye, Heart, ChevronDown, User } from 'lucide-react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { getCurrentUser, signOut } from '../lib/auth'
 import RealTimeStats from '../components/RealTimeStats'
 import FeaturedListings from '../components/FeaturedListings'
 
 export default function HomePage() {
   const [selectedFilters, setSelectedFilters] = useState([])
+  const [user, setUser] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const checkUser = async () => {
+      try {
+        const currentUser = await getCurrentUser()
+        setUser(currentUser)
+      } catch (error) {
+        console.error('Error checking user:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    checkUser()
+  }, [])
+
+  const handleSignOut = async () => {
+    try {
+      await signOut()
+      setUser(null)
+    } catch (error) {
+      console.error('Error signing out:', error)
+    }
+  }
 
   const toggleFilter = (filter) => {
     console.log('Toggling filter:', filter, 'Current filters:', selectedFilters)
@@ -76,8 +102,26 @@ export default function HomePage() {
             </nav>
             
             <div className="flex items-center space-x-3">
-              <Link href="/criar-conta" className="btn-ghost">Criar conta</Link>
-              <Link href="/login" className="btn-primary">Entrar</Link>
+              {!isLoading && (
+                user ? (
+                  // Authenticated user
+                  <div className="flex items-center space-x-3">
+                    <Link href="/dashboard" className="flex items-center space-x-2 btn-ghost">
+                      <User className="h-4 w-4" />
+                      <span>Dashboard</span>
+                    </Link>
+                    <button onClick={handleSignOut} className="btn-primary">
+                      Sair
+                    </button>
+                  </div>
+                ) : (
+                  // Non-authenticated user
+                  <>
+                    <Link href="/criar-conta" className="btn-ghost">Criar conta</Link>
+                    <Link href="/login" className="btn-primary">Entrar</Link>
+                  </>
+                )
+              )}
             </div>
           </div>
         </div>

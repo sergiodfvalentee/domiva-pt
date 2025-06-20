@@ -1,20 +1,74 @@
 'use client'
 
-import { useState } from 'react'
-import { Home, Eye, EyeOff, Mail, Lock } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Home, Eye, EyeOff, Mail, Lock, Loader } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { signIn, signInWithProvider, isAuthenticated, resendVerificationEmail } from '../../lib/auth'
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   })
+  const router = useRouter()
 
-  const handleSubmit = (e) => {
+  // Check if user is already authenticated
+  useEffect(() => {
+    const checkAuth = async () => {
+      const authenticated = await isAuthenticated()
+      if (authenticated) {
+        router.push('/dashboard')
+      }
+    }
+    checkAuth()
+  }, [router])
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log('Login attempt:', formData)
-    // TODO: Implement login logic
+    setIsLoading(true)
+    setError('')
+    setSuccess('')
+
+    try {
+      const { data, error } = await signIn(formData)
+      
+      if (error) {
+        setError(getErrorMessage(error.message))
+        return
+      }
+
+      if (data?.user) {
+        setSuccess('Login realizado com sucesso! Redirecionando...')
+        setTimeout(() => {
+          router.push('/dashboard')
+        }, 1500)
+      }
+    } catch (err) {
+      setError('Erro inesperado. Tente novamente.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleSocialLogin = async (provider) => {
+    setIsLoading(true)
+    setError('')
+    
+    try {
+      const { error } = await signInWithProvider(provider)
+      if (error) {
+        setError(`Erro ao entrar com ${provider}. Tente novamente.`)
+      }
+    } catch (err) {
+      setError('Erro inesperado. Tente novamente.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleChange = (e) => {
@@ -22,6 +76,46 @@ export default function LoginPage() {
       ...formData,
       [e.target.name]: e.target.value
     })
+    // Clear errors when user types
+    if (error) setError('')
+  }
+
+  const handleResendVerification = async () => {
+    if (!formData.email) {
+      setError('Por favor, introduza o seu email primeiro.')
+      return
+    }
+
+    setIsLoading(true)
+    try {
+      const { error } = await resendVerificationEmail(formData.email)
+      if (error) {
+        setError('Erro ao reenviar email. Tente novamente.')
+      } else {
+        setSuccess('Email de verificação reenviado! Verifique a sua caixa de entrada.')
+        setError('')
+      }
+    } catch (err) {
+      setError('Erro inesperado. Tente novamente.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const getErrorMessage = (error) => {
+    if (error.includes('NEED_EMAIL_VERIFICATION')) {
+      return 'Por favor, confirme o seu email antes de fazer login. Verifique a sua caixa de entrada e pasta de spam.'
+    }
+    if (error.includes('Invalid login credentials')) {
+      return 'Email ou palavra-passe incorretos.'
+    }
+    if (error.includes('Email not confirmed')) {
+      return 'Por favor, confirme o seu email antes de fazer login.'
+    }
+    if (error.includes('Too many requests')) {
+      return 'Muitas tentativas. Tente novamente mais tarde.'
+    }
+    return 'Erro ao fazer login. Verifique os seus dados.'
   }
 
   return (
@@ -62,6 +156,28 @@ export default function LoginPage() {
                   Entre na sua conta Domiva
                 </p>
               </div>
+
+              {/* Error/Success Messages */}
+              {error && (
+                <div className="p-4 rounded-xl bg-red-50 border border-red-200">
+                  <p className="text-red-600 text-sm">{error}</p>
+                  {(error.includes('NEED_EMAIL_VERIFICATION') || error.includes('Email not confirmed') || error.includes('confirme o seu email')) && (
+                    <button
+                      type="button"
+                      onClick={handleResendVerification}
+                      disabled={isLoading}
+                      className="mt-3 w-full bg-red-600 text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isLoading ? 'Reenviando...' : 'Reenviar email de verificação'}
+                    </button>
+                  )}
+                </div>
+              )}
+              {success && (
+                <div className="p-4 rounded-xl bg-green-50 border border-green-200">
+                  <p className="text-green-600 text-sm">{success}</p>
+                </div>
+              )}
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Email Field */}
@@ -128,9 +244,11 @@ export default function LoginPage() {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="w-full bg-gray-900 text-white py-3 px-4 rounded-xl font-medium hover:bg-gray-800 transition-all duration-300 transform hover:-translate-y-0.5"
+                  disabled={isLoading}
+                  className="w-full bg-gray-900 text-white py-3 px-4 rounded-xl font-medium hover:bg-gray-800 transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2"
                 >
-                  Entrar
+                  {isLoading && <Loader className="h-4 w-4 animate-spin" />}
+                  <span>{isLoading ? 'Entrando...' : 'Entrar'}</span>
                 </button>
               </form>
 
@@ -146,10 +264,18 @@ export default function LoginPage() {
 
               {/* Social Login */}
               <div className="space-y-3">
-                <button className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">
+                <button 
+                  onClick={() => handleSocialLogin('google')}
+                  disabled={isLoading}
+                  className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                   <span className="text-sm font-medium text-gray-700">Continuar com Google</span>
                 </button>
-                <button className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">
+                <button 
+                  onClick={() => handleSocialLogin('facebook')}
+                  disabled={isLoading}
+                  className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                   <span className="text-sm font-medium text-gray-700">Continuar com Facebook</span>
                 </button>
               </div>
