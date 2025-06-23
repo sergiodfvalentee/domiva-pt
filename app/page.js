@@ -4,8 +4,6 @@ import { Search, Home, Users, Shield, ArrowRight, MapPin, Star, TrendingUp, Eye,
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { getCurrentUser, signOut } from '../lib/auth'
-import RealTimeStats from '../components/RealTimeStats'
-import FeaturedListings from '../components/FeaturedListings'
 
 export default function HomePage() {
   const [selectedFilters, setSelectedFilters] = useState([])
@@ -358,7 +356,22 @@ export default function HomePage() {
             </div>
             
             {/* Real-Time Stats */}
-            <RealTimeStats />
+            <div className="bg-white rounded-2xl shadow-lg p-8 max-w-4xl mx-auto">
+              <div className="grid grid-cols-3 gap-8 text-center">
+                <div>
+                  <div className="text-3xl font-bold text-gray-900 mb-2">12,847</div>
+                  <div className="text-gray-600">Imóveis Ativos</div>
+                </div>
+                <div>
+                  <div className="text-3xl font-bold text-gray-900 mb-2">€287k</div>
+                  <div className="text-gray-600">Preço Médio</div>
+                </div>
+                <div>
+                  <div className="text-3xl font-bold text-gray-900 mb-2">98%</div>
+                  <div className="text-gray-600">Satisfação</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         
@@ -414,7 +427,60 @@ export default function HomePage() {
       </section>
 
       {/* Featured Listings - Real Data */}
-      <FeaturedListings />
+      <section className="section-spacing bg-white">
+        <div className="container-custom">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              Imóveis em Destaque
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto font-light">
+              Descubra as melhores oportunidades do mercado imobiliário português
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Sample property cards */}
+            <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
+              <div className="h-48 bg-gray-200 relative">
+                <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-sm font-semibold">
+                  T3
+                </div>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold mb-2">Apartamento T3 - Lisboa</h3>
+                <p className="text-gray-600 text-sm mb-4">Príncipe Real, Lisboa</p>
+                <div className="text-2xl font-bold text-gray-900">€425,000</div>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
+              <div className="h-48 bg-gray-200 relative">
+                <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-sm font-semibold">
+                  T2
+                </div>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold mb-2">Apartamento T2 - Porto</h3>
+                <p className="text-gray-600 text-sm mb-4">Cedofeita, Porto</p>
+                <div className="text-2xl font-bold text-gray-900">€285,000</div>
+              </div>
+            </div>
+            
+            <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
+              <div className="h-48 bg-gray-200 relative">
+                <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-sm font-semibold">
+                  Moradia
+                </div>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold mb-2">Moradia T4 - Cascais</h3>
+                <p className="text-gray-600 text-sm mb-4">Centro Cascais</p>
+                <div className="text-2xl font-bold text-gray-900">€750,000</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* CTA Section - Elegant */}
       <section className="section-spacing">
