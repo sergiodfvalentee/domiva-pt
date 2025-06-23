@@ -9,8 +9,6 @@ export default function HomePage() {
   const [selectedFilters, setSelectedFilters] = useState([])
   const [user, setUser] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
-  const [isVisible, setIsVisible] = useState(false)
-
   useEffect(() => {
     const checkUser = async () => {
       try {
@@ -23,9 +21,6 @@ export default function HomePage() {
       }
     }
     checkUser()
-
-    // Trigger animations after component mounts
-    setTimeout(() => setIsVisible(true), 100)
   }, [])
 
   const handleSignOut = async () => {
@@ -88,39 +83,39 @@ export default function HomePage() {
       {/* Modern Header */}
       <header className="absolute top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
         <div className="container-custom">
-          <div className={`flex justify-between items-center py-3 md:py-4 ${isVisible ? 'fade-in' : ''}`}>
-            <div className="flex items-center space-x-2 hover-lift">
+          <div className="flex justify-between items-center py-3 md:py-4">
+            <div className="flex items-center space-x-2">
               <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
                 <Home className="h-5 w-5 text-white" />
               </div>
               <span className="text-xl font-bold text-gray-900">Domiva</span>
             </div>
             
-            <nav className={`hidden md:flex items-center space-x-8 ${isVisible ? 'slide-in-left delay-200' : ''}`}>
-              <a href="#" className="btn-ghost hover-lift">Comprar</a>
-              <a href="#" className="btn-ghost hover-lift">Arrendar</a>
-              <a href="#" className="btn-ghost hover-lift">Vender</a>
-              <a href="#" className="btn-ghost hover-lift">Sobre</a>
+            <nav className="hidden md:flex items-center space-x-8">
+              <a href="#" className="btn-ghost">Comprar</a>
+              <a href="#" className="btn-ghost">Arrendar</a>
+              <a href="#" className="btn-ghost">Vender</a>
+              <a href="#" className="btn-ghost">Sobre</a>
             </nav>
             
-            <div className={`flex items-center space-x-3 ${isVisible ? 'slide-in-right delay-300' : ''}`}>
+            <div className="flex items-center space-x-3">
               {!isLoading && (
                 user ? (
                   // Authenticated user
                   <div className="flex items-center space-x-3">
-                    <Link href="/dashboard" className="flex items-center space-x-2 btn-ghost hover-lift">
+                    <Link href="/dashboard" className="flex items-center space-x-2 btn-ghost">
                       <User className="h-4 w-4" />
                       <span>Dashboard</span>
                     </Link>
-                    <button onClick={handleSignOut} className="btn-primary hover-glow">
+                    <button onClick={handleSignOut} className="btn-primary">
                       Sair
                     </button>
                   </div>
                 ) : (
                   // Non-authenticated user
                   <>
-                    <Link href="/criar-conta" className="btn-ghost hover-lift">Criar conta</Link>
-                    <Link href="/login" className="btn-primary hover-glow">Entrar</Link>
+                    <Link href="/criar-conta" className="btn-ghost">Criar conta</Link>
+                    <Link href="/login" className="btn-primary">Entrar</Link>
                   </>
                 )
               )}
@@ -133,19 +128,19 @@ export default function HomePage() {
       <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-white to-blue-50 pt-20 md:pt-24 lg:pt-28 overflow-hidden">
         <div className="container-custom text-center relative z-10">
           <div className="max-w-4xl mx-auto">
-            <h1 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 md:mb-8 leading-tight ${isVisible ? 'slide-up delay-400' : ''}`}>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 md:mb-8 leading-tight">
               <span className="gradient-text">Sinta-se em casa</span>
               <br />
               <span className="text-gray-900">desde o primeiro clique</span>
             </h1>
             
-            <p className={`text-lg sm:text-xl md:text-2xl text-gray-600 mb-10 md:mb-12 font-light leading-relaxed px-4 ${isVisible ? 'slide-up delay-500' : ''}`}>
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-10 md:mb-12 font-light leading-relaxed px-4">
               A plataforma mais moderna para comprar, vender e arrendar imóveis em Portugal
             </p>
             
             {/* Advanced Search Bar with Property Type */}
-            <div className={`max-w-6xl mx-auto mb-16 ${isVisible ? 'scale-in delay-600' : ''}`}>
-              <div className="search-bar hover-glow">
+            <div className="max-w-6xl mx-auto mb-16">
+              <div className="search-bar">
                 <div className="flex flex-col lg:flex-row items-center space-y-2 lg:space-y-0 lg:space-x-2">
                   {/* Location Input - Made much wider */}
                   <div className="w-full lg:w-1/2 flex items-center space-x-3 px-4 py-3 min-w-0">
@@ -207,7 +202,7 @@ export default function HomePage() {
                   </div>
                   
                   {/* Search Button */}
-                  <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-medium transition-all duration-300 flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 pulse-glow">
+                  <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-medium transition-colors duration-300 flex items-center space-x-2 shadow-md">
                     <Search className="h-5 w-5" />
                     <span>Pesquisar</span>
                   </button>
@@ -215,7 +210,7 @@ export default function HomePage() {
               </div>
               
               {/* Enhanced Quick Filter Tags */}
-              <div className={`mt-8 ${isVisible ? 'slide-up delay-700' : ''}`}>
+              <div className="mt-8">
                 {/* Debug Info */}
                 {selectedFilters.length > 0 && (
                   <div className="text-center mb-4">
@@ -239,7 +234,7 @@ export default function HomePage() {
                           <button
                             key={filter.id}
                             onClick={() => toggleFilter(filter.id)}
-                            className={`filter-tag ${isSelected ? 'active' : ''} ${isVisible ? `scale-in delay-${800 + (index * 100)}` : ''}`}
+                            className={`filter-tag ${isSelected ? 'active' : ''}`}
                           >
                             {filter.label}
                           </button>
@@ -330,7 +325,7 @@ export default function HomePage() {
                   <div className="text-center">
                     <button
                       onClick={() => setSelectedFilters([])}
-                      className="text-gray-500 hover:text-gray-700 text-sm font-medium transition-colors underline hover-lift"
+                      className="text-gray-500 hover:text-gray-700 text-sm font-medium transition-colors underline"
                     >
                       Limpar filtros ({selectedFilters.length})
                     </button>
@@ -340,7 +335,7 @@ export default function HomePage() {
             </div>
             
             {/* Real-Time Stats */}
-            <div className={`bg-white rounded-2xl shadow-lg p-8 max-w-4xl mx-auto hover-lift ${isVisible ? 'slide-up delay-800' : ''}`}>
+            <div className="bg-white rounded-2xl shadow-lg p-8 max-w-4xl mx-auto">
               <div className="grid grid-cols-3 gap-8 text-center">
                 <div>
                   <div className="text-3xl font-bold text-gray-900 mb-2 stats-counter">12,847</div>
@@ -368,7 +363,7 @@ export default function HomePage() {
       {/* Features Section - Minimalist */}
       <section className="section-spacing bg-gray-50">
         <div className="container-custom">
-          <div className={`text-center mb-20 ${isVisible ? 'slide-up delay-200' : ''}`}>
+          <div className="text-center mb-20">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
               Porquê escolher o Domiva?
             </h2>
@@ -378,8 +373,8 @@ export default function HomePage() {
           </div>
           
           <div className="grid md:grid-cols-3 gap-12">
-            <div className={`text-center group hover-lift ${isVisible ? 'slide-up delay-300' : ''}`}>
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl shadow-lg flex items-center justify-center mx-auto mb-6 group-hover:shadow-xl transition-all duration-300">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <TrendingUp className="h-8 w-8 text-white" />
               </div>
               <h3 className="text-2xl font-semibold mb-4 text-gray-900">Preços Reais</h3>
@@ -388,8 +383,8 @@ export default function HomePage() {
               </p>
             </div>
             
-            <div className={`text-center group hover-lift ${isVisible ? 'slide-up delay-400' : ''}`}>
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl shadow-lg flex items-center justify-center mx-auto mb-6 group-hover:shadow-xl transition-all duration-300">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <Eye className="h-8 w-8 text-white" />
               </div>
               <h3 className="text-2xl font-semibold mb-4 text-gray-900">Visitas Virtuais</h3>
@@ -398,8 +393,8 @@ export default function HomePage() {
               </p>
             </div>
             
-            <div className={`text-center group hover-lift ${isVisible ? 'slide-up delay-500' : ''}`}>
-              <div className="w-16 h-16 bg-gradient-to-r from-pink-600 to-red-600 rounded-2xl shadow-lg flex items-center justify-center mx-auto mb-6 group-hover:shadow-xl transition-all duration-300">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-pink-600 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <Heart className="h-8 w-8 text-white" />
               </div>
               <h3 className="text-2xl font-semibold mb-4 text-gray-900">Match Perfeito</h3>
@@ -414,7 +409,7 @@ export default function HomePage() {
       {/* Featured Listings - Real Data */}
       <section className="section-spacing bg-white">
         <div className="container-custom">
-          <div className={`text-center mb-16 ${isVisible ? 'slide-up delay-200' : ''}`}>
+          <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
               Imóveis em Destaque
             </h2>
@@ -425,9 +420,9 @@ export default function HomePage() {
           
           <div className="grid md:grid-cols-3 gap-8">
             {/* Sample property cards */}
-            <div className={`property-card ${isVisible ? 'slide-up delay-300' : ''}`}>
+            <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden cursor-pointer">
               <div className="h-48 bg-gradient-to-br from-blue-100 to-purple-100 relative">
-                <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-sm font-semibold shadow-md">
+                <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-sm font-semibold shadow-sm">
                   T3
                 </div>
               </div>
@@ -438,9 +433,9 @@ export default function HomePage() {
               </div>
             </div>
             
-            <div className={`property-card ${isVisible ? 'slide-up delay-400' : ''}`}>
+            <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden cursor-pointer">
               <div className="h-48 bg-gradient-to-br from-purple-100 to-pink-100 relative">
-                <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-sm font-semibold shadow-md">
+                <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-sm font-semibold shadow-sm">
                   T2
                 </div>
               </div>
@@ -451,9 +446,9 @@ export default function HomePage() {
               </div>
             </div>
             
-            <div className={`property-card ${isVisible ? 'slide-up delay-500' : ''}`}>
+            <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden cursor-pointer">
               <div className="h-48 bg-gradient-to-br from-pink-100 to-red-100 relative">
-                <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-sm font-semibold shadow-md">
+                <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-sm font-semibold shadow-sm">
                   Moradia
                 </div>
               </div>
@@ -470,7 +465,7 @@ export default function HomePage() {
       {/* CTA Section - Elegant */}
       <section className="section-spacing">
         <div className="container-custom">
-          <div className={`bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 rounded-3xl p-12 md:p-20 text-center text-white relative overflow-hidden hover-lift ${isVisible ? 'scale-in delay-600' : ''}`}>
+          <div className="bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 rounded-3xl p-12 md:p-20 text-center text-white relative overflow-hidden">
             <div className="relative z-10">
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
                 Pronto para começar?
@@ -480,11 +475,11 @@ export default function HomePage() {
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="bg-white text-gray-900 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 flex items-center justify-center space-x-2 hover-lift">
+                <button className="bg-white text-gray-900 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 flex items-center justify-center space-x-2">
                   <span>Explorar Imóveis</span>
                   <ArrowRight className="h-5 w-5" />
                 </button>
-                <button className="border border-gray-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300 hover-lift">
+                <button className="border border-gray-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300">
                   Anunciar Grátis
                 </button>
               </div>
@@ -504,7 +499,7 @@ export default function HomePage() {
         <div className="container-custom">
           <div className="grid md:grid-cols-5 gap-8 mb-12">
             <div className="md:col-span-2">
-              <div className={`flex items-center space-x-2 mb-6 hover-lift ${isVisible ? 'slide-in-left' : ''}`}>
+              <div className="flex items-center space-x-2 mb-6">
                 <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
                   <Home className="h-5 w-5 text-white" />
                 </div>
@@ -515,51 +510,51 @@ export default function HomePage() {
                 Tecnologia avançada, experiência simplificada.
               </p>
               <div className="flex space-x-4">
-                <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors cursor-pointer hover-lift">
+                <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors cursor-pointer">
                   <span className="text-gray-600 font-semibold">f</span>
                 </div>
-                <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors cursor-pointer hover-lift">
+                <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors cursor-pointer">
                   <span className="text-gray-600 font-semibold">in</span>
                 </div>
-                <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors cursor-pointer hover-lift">
+                <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors cursor-pointer">
                   <span className="text-gray-600 font-semibold">ig</span>
                 </div>
               </div>
             </div>
             
-            <div className={isVisible ? 'slide-up delay-200' : ''}>
+            <div>
               <h3 className="font-semibold text-gray-900 mb-4">Imóveis</h3>
               <ul className="space-y-3 text-gray-600 font-light">
-                <li><a href="#" className="hover:text-gray-900 transition-colors hover-lift">Comprar</a></li>
-                <li><a href="#" className="hover:text-gray-900 transition-colors hover-lift">Arrendar</a></li>
-                <li><a href="#" className="hover:text-gray-900 transition-colors hover-lift">Vender</a></li>
-                <li><a href="#" className="hover:text-gray-900 transition-colors hover-lift">Avaliar</a></li>
+                <li><a href="#" className="hover:text-gray-900 transition-colors">Comprar</a></li>
+                <li><a href="#" className="hover:text-gray-900 transition-colors">Arrendar</a></li>
+                <li><a href="#" className="hover:text-gray-900 transition-colors">Vender</a></li>
+                <li><a href="#" className="hover:text-gray-900 transition-colors">Avaliar</a></li>
               </ul>
             </div>
             
-            <div className={isVisible ? 'slide-up delay-300' : ''}>
+            <div>
               <h3 className="font-semibold text-gray-900 mb-4">Empresa</h3>
               <ul className="space-y-3 text-gray-600 font-light">
-                <li><a href="#" className="hover:text-gray-900 transition-colors hover-lift">Sobre Nós</a></li>
-                <li><a href="#" className="hover:text-gray-900 transition-colors hover-lift">Carreiras</a></li>
-                <li><a href="#" className="hover:text-gray-900 transition-colors hover-lift">Imprensa</a></li>
-                <li><a href="#" className="hover:text-gray-900 transition-colors hover-lift">Contacto</a></li>
+                <li><a href="#" className="hover:text-gray-900 transition-colors">Sobre Nós</a></li>
+                <li><a href="#" className="hover:text-gray-900 transition-colors">Carreiras</a></li>
+                <li><a href="#" className="hover:text-gray-900 transition-colors">Imprensa</a></li>
+                <li><a href="#" className="hover:text-gray-900 transition-colors">Contacto</a></li>
               </ul>
             </div>
             
-            <div className={isVisible ? 'slide-up delay-400' : ''}>
+            <div>
               <h3 className="font-semibold text-gray-900 mb-4">Suporte</h3>
               <ul className="space-y-3 text-gray-600 font-light">
-                <li><a href="#" className="hover:text-gray-900 transition-colors hover-lift">Ajuda</a></li>
-                <li><a href="#" className="hover:text-gray-900 transition-colors hover-lift">Termos</a></li>
-                <li><a href="#" className="hover:text-gray-900 transition-colors hover-lift">Privacidade</a></li>
-                <li><a href="#" className="hover:text-gray-900 transition-colors hover-lift">RGPD</a></li>
+                <li><a href="#" className="hover:text-gray-900 transition-colors">Ajuda</a></li>
+                <li><a href="#" className="hover:text-gray-900 transition-colors">Termos</a></li>
+                <li><a href="#" className="hover:text-gray-900 transition-colors">Privacidade</a></li>
+                <li><a href="#" className="hover:text-gray-900 transition-colors">RGPD</a></li>
               </ul>
             </div>
           </div>
           
           <div className="border-t border-gray-100 pt-8">
-            <div className={`flex flex-col md:flex-row justify-between items-center ${isVisible ? 'fade-in delay-500' : ''}`}>
+            <div className="flex flex-col md:flex-row justify-between items-center">
               <p className="text-gray-500 font-light">
                 © 2024 Domiva. Todos os direitos reservados.
               </p>

@@ -163,23 +163,25 @@ export default function CriarContaPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+    <main className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
       {/* Header */}
-      <header className="absolute top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+      <header className="absolute top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100/50">
         <div className="container-custom">
-          <div className="flex justify-between items-center py-3 md:py-4">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center">
+          <div className="flex justify-between items-center py-4">
+            <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity duration-300">
+              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
                 <Home className="h-5 w-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-gray-900">Domiva</span>
+              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Domiva
+              </span>
             </Link>
             
-            <div className="flex items-center space-x-3">
-              <Link href="/criar-conta" className="btn-ghost">
-                Criar conta
+            <div className="flex items-center space-x-4">
+              <Link href="/login" className="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-300">
+                Já tem conta?
               </Link>
-              <Link href="/login" className="btn-primary">
+              <Link href="/login" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2.5 rounded-xl font-semibold hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300">
                 Entrar
               </Link>
             </div>
@@ -187,87 +189,58 @@ export default function CriarContaPage() {
         </div>
       </header>
 
+      {/* Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-gradient-to-r from-purple-400/20 to-blue-400/20 rounded-full blur-3xl"></div>
+      </div>
+
       {/* Sign Up Form */}
-      <section className="pt-32 pb-20">
+      <section className="pt-24 pb-16 relative z-10">
         <div className="container-custom">
-          <div className="max-w-md mx-auto">
-            <div className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100">
+          <div className="max-w-lg mx-auto">
+            <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-8 md:p-10">
+              {/* Header */}
               <div className="text-center mb-8">
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                  <User className="h-8 w-8 text-white" />
+                </div>
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
                   Criar conta gratuita
                 </h1>
-                <p className="text-gray-600">
+                <p className="text-gray-600 text-lg">
                   Junte-se à Domiva e encontre a casa dos seus sonhos
                 </p>
               </div>
 
               {/* Error/Success Messages */}
               {error && (
-                <div className="p-4 rounded-xl bg-red-50 border border-red-200">
-                  <p className="text-red-600 text-sm">{error}</p>
+                <div className="mb-6 p-4 rounded-2xl bg-red-50/80 backdrop-blur-sm border border-red-200/50">
+                  <p className="text-red-700 text-sm font-medium">{error}</p>
                 </div>
               )}
               {success && (
-                <div className="p-4 rounded-xl bg-green-50 border border-green-200">
-                  <p className="text-green-600 text-sm">{success}</p>
+                <div className="mb-6 p-4 rounded-2xl bg-green-50/80 backdrop-blur-sm border border-green-200/50">
+                  <p className="text-green-700 text-sm font-medium">{success}</p>
                 </div>
               )}
 
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* User Type Selection */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">
-                    Tipo de conta
-                  </label>
-                  <div className="grid grid-cols-2 gap-3">
-                    <label className={`flex items-center justify-center p-3 border rounded-xl cursor-pointer transition-all ${
-                      formData.userType === 'particular' 
-                        ? 'bg-gray-900 text-white border-gray-900' 
-                        : 'border-gray-300 hover:border-gray-400'
-                    }`}>
-                      <input
-                        type="radio"
-                        name="userType"
-                        value="particular"
-                        checked={formData.userType === 'particular'}
-                        onChange={handleChange}
-                        className="sr-only"
-                      />
-                      <span className="text-sm font-medium">Particular</span>
-                    </label>
-                    <label className={`flex items-center justify-center p-3 border rounded-xl cursor-pointer transition-all ${
-                      formData.userType === 'agente' 
-                        ? 'bg-gray-900 text-white border-gray-900' 
-                        : 'border-gray-300 hover:border-gray-400'
-                    }`}>
-                      <input
-                        type="radio"
-                        name="userType"
-                        value="agente"
-                        checked={formData.userType === 'agente'}
-                        onChange={handleChange}
-                        className="sr-only"
-                      />
-                      <span className="text-sm font-medium">Agente</span>
-                    </label>
-                  </div>
-                </div>
-
                 {/* Name Field */}
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
                     Nome completo
                   </label>
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <User className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                     <input
                       type="text"
                       id="name"
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none transition-all"
-                      placeholder="Seu nome completo"
+                      className="w-full pl-12 pr-4 py-4 bg-white/50 backdrop-blur-sm border border-gray-200/50 rounded-2xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all duration-300 text-gray-900 placeholder-gray-500"
+                      placeholder="O seu nome completo"
                       required
                     />
                   </div>
@@ -275,18 +248,18 @@ export default function CriarContaPage() {
 
                 {/* Email Field */}
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
                     Email
                   </label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                     <input
                       type="email"
                       id="email"
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none transition-all"
+                      className="w-full pl-12 pr-4 py-4 bg-white/50 backdrop-blur-sm border border-gray-200/50 rounded-2xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all duration-300 text-gray-900 placeholder-gray-500"
                       placeholder="seu.email@exemplo.com"
                       required
                     />
@@ -295,45 +268,94 @@ export default function CriarContaPage() {
 
                 {/* Phone Field */}
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
                     Telefone
                   </label>
                   <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                     <input
                       type="tel"
                       id="phone"
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none transition-all"
-                      placeholder="+351 xxx xxx xxx"
+                      className="w-full pl-12 pr-4 py-4 bg-white/50 backdrop-blur-sm border border-gray-200/50 rounded-2xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all duration-300 text-gray-900 placeholder-gray-500"
+                      placeholder="+351 912 345 678"
                       required
                     />
                   </div>
                 </div>
 
+                {/* User Type */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-3">
+                    Tipo de utilizador
+                  </label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <label className="relative">
+                      <input
+                        type="radio"
+                        name="userType"
+                        value="particular"
+                        checked={formData.userType === 'particular'}
+                        onChange={handleChange}
+                        className="sr-only"
+                      />
+                      <div className={`p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 ${
+                        formData.userType === 'particular' 
+                          ? 'border-blue-500 bg-blue-50/50 shadow-lg' 
+                          : 'border-gray-200 bg-white/30 hover:border-gray-300'
+                      }`}>
+                        <div className="text-center">
+                          <User className="h-6 w-6 mx-auto mb-2 text-gray-600" />
+                          <span className="text-sm font-medium text-gray-900">Particular</span>
+                        </div>
+                      </div>
+                    </label>
+                    <label className="relative">
+                      <input
+                        type="radio"
+                        name="userType"
+                        value="agente"
+                        checked={formData.userType === 'agente'}
+                        onChange={handleChange}
+                        className="sr-only"
+                      />
+                      <div className={`p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 ${
+                        formData.userType === 'agente' 
+                          ? 'border-blue-500 bg-blue-50/50 shadow-lg' 
+                          : 'border-gray-200 bg-white/30 hover:border-gray-300'
+                      }`}>
+                        <div className="text-center">
+                          <Shield className="h-6 w-6 mx-auto mb-2 text-gray-600" />
+                          <span className="text-sm font-medium text-gray-900">Agente</span>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
                 {/* Password Field */}
                 <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
                     Palavra-passe
                   </label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                     <input
                       type={showPassword ? 'text' : 'password'}
                       id="password"
                       name="password"
                       value={formData.password}
                       onChange={handleChange}
-                      className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none transition-all"
-                      placeholder="••••••••"
+                      className="w-full pl-12 pr-12 py-4 bg-white/50 backdrop-blur-sm border border-gray-200/50 rounded-2xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all duration-300 text-gray-900 placeholder-gray-500"
+                      placeholder="Mínimo 8 caracteres"
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors duration-300"
                     >
                       {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                     </button>
@@ -342,49 +364,49 @@ export default function CriarContaPage() {
 
                 {/* Confirm Password Field */}
                 <div>
-                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="confirmPassword" className="block text-sm font-semibold text-gray-700 mb-2">
                     Confirmar palavra-passe
                   </label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                     <input
                       type={showConfirmPassword ? 'text' : 'password'}
                       id="confirmPassword"
                       name="confirmPassword"
                       value={formData.confirmPassword}
                       onChange={handleChange}
-                      className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none transition-all"
-                      placeholder="••••••••"
+                      className="w-full pl-12 pr-12 py-4 bg-white/50 backdrop-blur-sm border border-gray-200/50 rounded-2xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 outline-none transition-all duration-300 text-gray-900 placeholder-gray-500"
+                      placeholder="Repita a palavra-passe"
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors duration-300"
                     >
                       {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                     </button>
                   </div>
                 </div>
 
-                {/* Terms and Conditions */}
-                <div className="flex items-start">
+                {/* Terms Checkbox */}
+                <div className="flex items-start space-x-3">
                   <input
                     type="checkbox"
                     id="acceptTerms"
                     name="acceptTerms"
                     checked={formData.acceptTerms}
                     onChange={handleChange}
-                    className="w-4 h-4 text-gray-900 border-gray-300 rounded focus:ring-gray-900 mt-1"
+                    className="mt-1 w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                     required
                   />
-                  <label htmlFor="acceptTerms" className="ml-2 text-sm text-gray-600">
-                    Aceito os{' '}
-                    <Link href="/termos" className="text-gray-900 hover:underline">
-                      Termos e Condições
-                    </Link>
-                    {' '}e a{' '}
-                    <Link href="/privacidade" className="text-gray-900 hover:underline">
+                  <label htmlFor="acceptTerms" className="text-sm text-gray-600 leading-relaxed">
+                    Concordo com os{' '}
+                    <Link href="#" className="text-blue-600 hover:text-blue-700 font-medium">
+                      Termos de Serviço
+                    </Link>{' '}
+                    e{' '}
+                    <Link href="#" className="text-blue-600 hover:text-blue-700 font-medium">
                       Política de Privacidade
                     </Link>
                   </label>
@@ -393,48 +415,26 @@ export default function CriarContaPage() {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  disabled={isLoading}
-                  className="w-full bg-gray-900 text-white py-3 px-4 rounded-xl font-medium hover:bg-gray-800 transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2"
+                  disabled={isLoading || !formData.acceptTerms}
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-6 rounded-2xl font-semibold text-lg hover:shadow-xl hover:shadow-blue-500/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none flex items-center justify-center space-x-2"
                 >
-                  {isLoading && <Loader className="h-4 w-4 animate-spin" />}
-                  <span>{isLoading ? 'Criando conta...' : 'Criar conta gratuita'}</span>
+                  {isLoading ? (
+                    <>
+                      <Loader className="h-5 w-5 animate-spin" />
+                      <span>Criando conta...</span>
+                    </>
+                  ) : (
+                    <span>Criar conta gratuita</span>
+                  )}
                 </button>
               </form>
 
-              {/* Divider */}
-              <div className="relative my-6">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-300"></div>
-                </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-gray-500">ou</span>
-                </div>
-              </div>
-
-              {/* Social Login */}
-              <div className="space-y-3">
-                <button 
-                  onClick={() => handleSocialSignUp('google')}
-                  disabled={isLoading}
-                  className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <span className="text-sm font-medium text-gray-700">Continuar com Google</span>
-                </button>
-                <button 
-                  onClick={() => handleSocialSignUp('facebook')}
-                  disabled={isLoading}
-                  className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <span className="text-sm font-medium text-gray-700">Continuar com Facebook</span>
-                </button>
-              </div>
-
               {/* Login Link */}
-              <div className="text-center mt-6">
-                <p className="text-sm text-gray-600">
-                  Já tem conta?{' '}
-                  <Link href="/login" className="text-gray-900 font-medium hover:underline">
-                    Entrar
+              <div className="mt-8 text-center">
+                <p className="text-gray-600">
+                  Já tem uma conta?{' '}
+                  <Link href="/login" className="text-blue-600 hover:text-blue-700 font-semibold transition-colors duration-300">
+                    Entrar agora
                   </Link>
                 </p>
               </div>
